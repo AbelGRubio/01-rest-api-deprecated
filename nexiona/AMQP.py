@@ -29,13 +29,13 @@ def run_amqp():
             if body == b'stop_consuming':
                 """ or ch.stop_consuming """
                 CHANNEL.stop_consuming()
+            else:
+                user, base_url, meth = body.decode('utf8').split('-')
 
-            user, base_url, meth = body.decode('utf8').split('-')
+                LOGGER.info(f'VISITS: The user {user} has visited the url {base_url} '
+                            f'under the method {meth}')
 
-            LOGGER.info(f'VISITS: The user {user} has visited the url {base_url} '
-                        f'under the method {meth}')
-
-            count_unique_visits(base_url=base_url, user=user)
+                count_unique_visits(base_url=base_url, user=user)
 
         except Exception as e:
             LOGGER.error('Error doing things. {}'.format(e))

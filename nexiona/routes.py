@@ -6,7 +6,7 @@
 from flask import jsonify
 
 from nexiona.functions import record_visit, read_logger_visits
-from nexiona.global_parameters import APP, UNIQUE_URL_VISITS
+from nexiona.global_parameters import APP, UNIQUE_URL_VISITS, CHANNEL
 
 
 @APP.route('/')
@@ -90,6 +90,21 @@ def history_route():
     lines = read_logger_visits()
 
     return jsonify(lines)
+
+
+@APP.route('/close_amqp')
+def close_amqp_route():
+    """
+    Get the full history of the visited path
+
+    :return: a json file
+    """
+
+    CHANNEL.basic_publish(exchange='',
+                          routing_key='nexiona_amqp',
+                          body=b'stop_consuming')
+
+    return 'Now you can stop the server'
 
 
 """
