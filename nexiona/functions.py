@@ -5,7 +5,7 @@
 from flask import request
 
 from nexiona import LOGGER, LOGGER_NAME
-from .global_parameters import UNIQUE_URL_VISITS
+from nexiona.global_parameters import UNIQUE_URL_VISITS, CHANNEL
 
 
 def count_unique_visits(base_url: str = '',
@@ -39,11 +39,9 @@ def record_visit() -> (str, str, str):
     user = request.remote_addr
     base_url = request.base_url
 
-    LOGGER.info(f'VISITS: The user {user} has visited the url {base_url} '
-                f'under the method {meth}')
-
-    count_unique_visits(base_url=base_url,
-                        user=user)
+    CHANNEL.basic_publish(exchange='',
+                          routing_key='nexiona_amqp',
+                          body='{}-{}-{}'.format(user, base_url, meth))
 
     return base_url, meth, user
 
