@@ -2,11 +2,11 @@
     This module is used for define the REST API endpoints
 
 """
+
 from flask import jsonify
 
 from nexiona.functions import record_visit, read_logger_visits
-from nexiona.global_parameters import APP
-from .global_parameters import UNIQUE_URL_VISITS
+from nexiona.global_parameters import APP, UNIQUE_URL_VISITS
 
 
 @APP.route('/')
