@@ -40,5 +40,5 @@ python app.py 192.168.1.128
 
 To stop the server, you must follow this steps:
 
-1. Go to http://localhost:5000/close_amqp. That will execute a close_consuming function to the queue.
+1. Go to http://localhost:5000/close_amqp. That will execute a close_consuming function to the queue. This step is done on the AMQP branch, not otherwise. 
 2. Then, you can stop the server using the shortcut CTRL+C
