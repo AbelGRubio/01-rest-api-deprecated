@@ -1,5 +1,5 @@
 """
-    This is the main module to execute the REST API
+    This is the main module to execute the REST API using AMPQ
 
 """
 
