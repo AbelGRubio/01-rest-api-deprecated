@@ -2,7 +2,7 @@
     This package is to save each function and classes that
     are useful for execute the programme. The statement is:
 
-    .. image:: ../assets/prueba_nexiona.pdf
+    .. image:: ../assets/prueba_api.pdf
 
     To solve this problem we are going to use an API REST using
     Flask
@@ -13,7 +13,7 @@ import os
 import sys
 from logging.handlers import TimedRotatingFileHandler
 
-LOGGER_NAME = "prueba_nexiona"
+LOGGER_NAME = "prueba_api"
 
 
 def set_logger() -> logging.Logger:

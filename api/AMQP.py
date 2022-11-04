@@ -1,8 +1,9 @@
 import threading
 
-from nexiona import LOGGER
-from nexiona.functions import count_unique_visits
-from nexiona.global_parameters import CHANNEL
+from api import LOGGER
+from api.functions import count_unique_visits
+# from api.global_parameters import CHANNEL, CONNECTION, set_channel_pika
+import api.global_parameters as api_parameters
 
 
 def run_amqp():
@@ -28,24 +29,28 @@ def run_amqp():
         try:
             if body == b'stop_consuming':
                 """ or ch.stop_consuming """
-                CHANNEL.stop_consuming()
+                ch.stop_consuming()
             else:
-                user, base_url, meth = body.decode('utf8').split('-')
+                try:
+                    user, base_url, meth = body.decode('utf8').split('-')
 
-                LOGGER.info(f'VISITS: The user {user} has visited the url {base_url} '
-                            f'under the method {meth}')
+                    LOGGER.debug(f'VISITS: The user {user} has visited the url {base_url} '
+                                 f'under the method {meth}')
 
-                count_unique_visits(base_url=base_url, user=user)
+                    count_unique_visits(base_url=base_url, user=user)
 
+                except ValueError:
+                    LOGGER.debug(body.decode('utf8'))
         except Exception as e:
             LOGGER.error('Error doing things. {}'.format(e))
 
-    CHANNEL.basic_consume(queue='nexiona_amqp',
-                          on_message_callback=callback,
-                          auto_ack=True)
+    api_parameters.CHANNEL.basic_consume(
+        queue='api_amqp',
+        on_message_callback=callback,
+        auto_ack=False)
 
     LOGGER.info(' [*] Waiting for messages.')
-    CHANNEL.start_consuming()
+    api_parameters.CHANNEL.start_consuming()
 
 
 def declare_thread_ampq() -> None:
@@ -56,7 +61,8 @@ def declare_thread_ampq() -> None:
     """
 
     th = threading.Thread(target=run_amqp,
-                          name='Thread_AMPQ')
+                          name='Thread_AMPQ',
+                          )
     th.start()
 
 

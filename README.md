@@ -1,4 +1,4 @@
-# Nexiona test
+# api test
 
 
 This test is about REST API and AMQP.

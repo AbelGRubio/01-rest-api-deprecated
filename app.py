@@ -3,9 +3,9 @@
 
 """
 import sys
-from nexiona import LOGGER
-from nexiona.routes import *
-from nexiona.AMQP import declare_thread_ampq
+from api import LOGGER
+from api.routes import *
+from api.AMQP import declare_thread_ampq
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
