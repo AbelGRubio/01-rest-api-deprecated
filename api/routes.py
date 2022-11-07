@@ -5,11 +5,10 @@
 
 from flask import jsonify
 
-from api.functions import record_visit, read_logger_visits, \
-    process_channel, process_management, record_message
-from api.global_parameters import APP, PROCESS_RUNNING, CHANNEL, CONNECTION
+from api.functions import record_visit, \
+    process_channel, process_management, LOGGER
+from api.global_parameters import APP, PROCESS_RUNNING
 from multiprocessing import Process
-from threading import Thread
 
 
 @APP.route('/')
@@ -45,12 +44,11 @@ def start_endpoint(channel_num: str):
 
         PROCESS_RUNNING[name_process] = p
 
-        name_process_0 = 'thread-0'
+        name_process_0 = 'process-0'
         if name_process_0 not in PROCESS_RUNNING:
-            p = Thread(name=name_process_0,
-                       target=process_management,
-                       # args=(CHANNEL, ),
-                       )
+            p = Process(name=name_process_0,
+                        target=process_management,
+                        )
             p.daemon = True
             p.start()
             PROCESS_RUNNING[name_process_0] = p
@@ -71,17 +69,24 @@ def stop_endpoint(channel_num: str):
 
     name_process = 'process-{}'.format(channel_num)
 
-    if name_process in PROCESS_RUNNING:
-        p = PROCESS_RUNNING[name_process]
-        p.terminate()
-        record_message(f'Deleted process channel {channel_num}')
-        del PROCESS_RUNNING[name_process]
+    if channel_num == 'all':
+        for pn in PROCESS_RUNNING:
+            p = PROCESS_RUNNING[pn]
+            p.terminate()
+            LOGGER.debug(f'Terminated process {pn}')
+    else:
+        if name_process in PROCESS_RUNNING:
+            p = PROCESS_RUNNING[name_process]
+            p.terminate()
+            LOGGER.debug(f'Terminated process channel {channel_num}')
+            del PROCESS_RUNNING[name_process]
 
-        if len(PROCESS_RUNNING) == 1:
-            name_process_0 = 'thread-0'
-            p = PROCESS_RUNNING[name_process_0]
-            p._stop()
-            del PROCESS_RUNNING[name_process_0]
+            if len(PROCESS_RUNNING) == 1:
+                name_process_0 = 'process-0'
+                p = PROCESS_RUNNING[name_process_0]
+                p.terminate()
+                LOGGER.debug(f'Terminated process logger')
+                del PROCESS_RUNNING[name_process_0]
 
     return jsonify(f'You have visited {base_url} under the method {meth}'
                    f'and you finished the process channel {channel_num}')

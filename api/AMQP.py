@@ -2,8 +2,8 @@ import threading
 
 from api import LOGGER
 from api.functions import count_unique_visits
-# from api.global_parameters import CHANNEL, CONNECTION, set_channel_pika
-import api.global_parameters as api_parameters
+import pika
+import api.global_parameters as api_global
 
 
 def run_amqp():
@@ -12,6 +12,7 @@ def run_amqp():
 
     :return: Nothing
     """
+    api_global.define_connection()
 
     def callback(ch, method, properties,
                  body: bytes = b''):
@@ -29,7 +30,7 @@ def run_amqp():
         try:
             if body == b'stop_consuming':
                 """ or ch.stop_consuming """
-                ch.stop_consuming()
+                api_global.CHANNEL.stop_consuming()
             else:
                 try:
                     user, base_url, meth = body.decode('utf8').split('-')
@@ -44,13 +45,14 @@ def run_amqp():
         except Exception as e:
             LOGGER.error('Error doing things. {}'.format(e))
 
-    api_parameters.CHANNEL.basic_consume(
+    api_global.CHANNEL.basic_consume(
         queue='api_amqp',
         on_message_callback=callback,
         auto_ack=False)
 
     LOGGER.info(' [*] Waiting for messages.')
-    api_parameters.CHANNEL.start_consuming()
+    api_global.CHANNEL.basic_qos(prefetch_count=1)
+    api_global.CHANNEL.start_consuming()
 
 
 def declare_thread_ampq() -> None:

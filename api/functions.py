@@ -7,9 +7,9 @@ import time
 from flask import request
 
 from api import LOGGER, LOGGER_NAME
-# from api.global_parameters import UNIQUE_URL_VISITS, CHANNEL, \
-#    STATUS_MANAGEMENT, pika, set_channel_pika
-import api.global_parameters as api_parameters
+# from api.global_parameters import UNIQUE_URL_VISITS, \
+#    STATUS_MANAGEMENT, CHANNEL, define_connection, STATUS_CHANNEL
+import api.global_parameters as api_global
 
 
 def count_unique_visits(base_url: str = '',
@@ -23,11 +23,11 @@ def count_unique_visits(base_url: str = '',
     :return: Nothing
     """
 
-    if base_url in api_parameters.UNIQUE_URL_VISITS:
-        if user not in api_parameters.UNIQUE_URL_VISITS[base_url]:
-            api_parameters.UNIQUE_URL_VISITS[base_url].append(user)
+    if base_url in api_global.UNIQUE_URL_VISITS:
+        if user not in api_global.UNIQUE_URL_VISITS[base_url]:
+            api_global.UNIQUE_URL_VISITS[base_url].append(user)
     else:
-        api_parameters.UNIQUE_URL_VISITS[base_url] = [user]
+        api_global.UNIQUE_URL_VISITS[base_url] = [user]
 
     return
 
@@ -43,7 +43,7 @@ def record_visit() -> (str, str, str):
     user = request.remote_addr
     base_url = request.base_url
 
-    api_parameters.CHANNEL.basic_publish(
+    api_global.CHANNEL.basic_publish(
         exchange='',
         routing_key='api_amqp',
         body='{}-{}-{}'.format(user, base_url, meth))
@@ -60,7 +60,7 @@ def record_message(message: str) -> bool:
 
     state = True
     try:
-        api_parameters.CHANNEL.basic_publish(
+        api_global.CHANNEL.basic_publish(
             exchange='',
             routing_key='api_amqp',
             body=message)
@@ -95,50 +95,43 @@ def read_logger_visits() -> list:
 
 
 def process_management(conn = None) -> None:
-    # channel_pika: pika.BlockingConnection.channel
     count_time = 0
 
+    api_global.define_connection()
+
+    time.sleep(1)
     # set_channel_pika(channel_pika)
 
     record_message('Starting process management')
 
-    while api_parameters.STATUS_MANAGEMENT:
+    while api_global.STATUS_MANAGEMENT:
         record_message('Doing stuff on process management. Time {}'.format(count_time))
         time.sleep(5)
         count_time += 1
-        if count_time > 5:
-            break
 
     record_message('Finishing process management')
-    api_parameters.CHANNEL.stop_consuming()
-
-    [api_parameters.PROCESS_RUNNING[_k].terminate()
-     for _k in api_parameters.PROCESS_RUNNING
-     if 'process' in _k]
-
-    api_parameters.PROCESS_RUNNING = {}
+    api_global.CHANNEL.stop_consuming()
 
     return None
 
 
 def process_channel(
-        # channel_pika: pika.BlockingConnection.channel,
         num_channel: int) -> None:
     count_time = 0
 
-    # set_channel_pika(channel_pika)
+    api_global.define_connection()
+
+    time.sleep(1)
 
     record_message('Starting process channel {}'.format(num_channel))
 
-    while True:
+    while api_global.STATUS_CHANNEL:
         record_message('Doing stuff on process channel {}. '
                        'Time {}'.format(num_channel, count_time))
         time.sleep(1)
         count_time += 1
-        if count_time > 125:
-            break
 
     record_message('Finishing process channel {}'.format(num_channel))
 
-    api_parameters.CHANNEL.stop_consuming()
+    api_global.CHANNEL.stop_consuming()
 
