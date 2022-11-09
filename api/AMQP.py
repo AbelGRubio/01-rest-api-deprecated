@@ -45,6 +45,8 @@ def run_amqp():
         except Exception as e:
             LOGGER.error('Error doing things. {}'.format(e))
 
+        api_global.CHANNEL.basic_ack(method.delivery_tag)
+
     api_global.CHANNEL.basic_consume(
         queue='api_amqp',
         on_message_callback=callback,

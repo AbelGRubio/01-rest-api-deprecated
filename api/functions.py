@@ -2,13 +2,10 @@
     This module is to register useful functions.
 
 """
-import sys
 import time
 from flask import request
 
 from api import LOGGER, LOGGER_NAME
-# from api.global_parameters import UNIQUE_URL_VISITS, \
-#    STATUS_MANAGEMENT, CHANNEL, define_connection, STATUS_CHANNEL
 import api.global_parameters as api_global
 
 
@@ -94,7 +91,7 @@ def read_logger_visits() -> list:
     return lines
 
 
-def process_management(conn = None) -> None:
+def process_management(conn=None) -> None:
     count_time = 0
 
     api_global.define_connection()
