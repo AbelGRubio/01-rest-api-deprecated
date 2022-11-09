@@ -3,36 +3,60 @@
 
 """
 
-from flask import jsonify
+# from flask import jsonify
+from fastapi import Request
 
 from api.functions import record_visit, \
     process_channel, process_management, LOGGER
 from api.global_parameters import APP, PROCESS_RUNNING
 from multiprocessing import Process
+from fastapi.responses import HTMLResponse
 
 
-@APP.route('/')
-def main_route():
+# @APP.get('/', response_class=HTMLResponse)
+# def main_route(request: Request):
+#     """
+#     Example main route
+#
+#     :return: a json file
+#     """
+#
+#     base_url, meth, _ = record_visit(request)
+#
+#     return HTMLResponse(
+#         content=f'You have visited {base_url} under the method {meth}',
+#         status_code=200)
+#
+
+@APP.get('/result_{channel_num}', response_class=HTMLResponse)
+def result_endpoint(channel_num: str, request: Request):
     """
-    Example main route
+    Get the result of the channel
 
-    :return: a json file
+    Arguments:
+    - **channel_num**: channel number
+    - **request**:  request information
+
+    """
+    base_url, meth, _ = record_visit(request)
+
+    return f'You have visited {base_url} under the method {meth}'
+
+
+@APP.post('/start_{channel_num}', response_class=HTMLResponse)
+def start_endpoint(
+        channel_num: str,
+        request: Request):
+    """
+    Function to start processing a channel
+
+    Arguments:
+    - **channel_num**: channel number
+    - **request**:  request information
+
     """
 
-    base_url, meth, _ = record_visit()
-
-    return jsonify(f'You have visited {base_url} under the method {meth}')
-
-
-@APP.route('/start_<channel_num>')
-def start_endpoint(channel_num: str):
-    """
-    Example path 1 route
-
-    :return: a json file
-    """
-
-    base_url, meth, _ = record_visit()
+    base_url, meth, _ = record_visit(request)
 
     name_process = 'process-{}'.format(channel_num)
 
@@ -53,19 +77,24 @@ def start_endpoint(channel_num: str):
             p.start()
             PROCESS_RUNNING[name_process_0] = p
 
-    return jsonify(f'You have visited {base_url} under the method {meth} '
-                   f'and you started the process channel {channel_num}')
+    return HTMLResponse(
+        content=f'You have visited {base_url} under the method {meth}',
+        status_code=200)
 
 
-@APP.route('/stop_<channel_num>')
-def stop_endpoint(channel_num: str):
+@APP.put('/stop_{channel_num}', response_class=HTMLResponse)
+def stop_endpoint(
+        channel_num: str, request: Request
+        ):
     """
-    Example path 2 route
+    Stop a process which is running
 
-    :return: a json file
+    Arguments:
+    - **channel_num**: channel number
+    - **request**:  request information
     """
 
-    base_url, meth, _ = record_visit()
+    base_url, meth, _ = record_visit(request)
 
     name_process = 'process-{}'.format(channel_num)
 
@@ -88,27 +117,24 @@ def stop_endpoint(channel_num: str):
                 LOGGER.debug(f'Terminated process logger')
                 del PROCESS_RUNNING[name_process_0]
 
-    return jsonify(f'You have visited {base_url} under the method {meth}'
-                   f'and you finished the process channel {channel_num}')
+    return HTMLResponse(
+        content=f'You have visited {base_url} under the method {meth}',
+        status_code=200)
 
 
-@APP.route('/restart_<channel_num>')
-def restart_endpoint(channel_num: str):
+@APP.put('/restart_{channel_num}', response_class=HTMLResponse)
+def restart_endpoint(
+        channel_num: str, request: Request):
     """
-    Example sub-path from path 1
+    Restart a process which is running
 
-    :return: a json file
+    Arguments:
+    - **channel_num**: channel number
+    - **request**:  request information
     """
 
-    base_url, meth, _ = record_visit()
+    base_url, meth, _ = record_visit(request)
 
-    return jsonify(f'You have visited {base_url} under the method {meth}')
-
-
-@APP.route('/result_<channel_num>')
-def result_endpoint(channel_num: str):
-
-    base_url, meth, _ = record_visit()
-
-    return jsonify(f'You have visited {base_url} under the method {meth}')
-
+    return HTMLResponse(
+        content=f'You have visited {base_url} under the method {meth}',
+        status_code=200)

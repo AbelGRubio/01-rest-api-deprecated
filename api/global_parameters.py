@@ -3,33 +3,30 @@
 
 """
 
-from flask import Flask
+# from flask import Flask
+from fastapi import FastAPI
 import pika
 
 
-APP = Flask(__name__)
+description = """
+Fast API to control the processing. 🚀
+
+
+"""
+
+APP = FastAPI(
+    title='FastAPI Signal Processing Workflow',
+    description=description,
+    version='1.0.0'
+)
+
 UNIQUE_URL_VISITS = {}
 
 CONNECTION, CHANNEL = None, None
 
-# CONNECTION = pika.BlockingConnection(
-#     pika.ConnectionParameters(host='localhost',
-#                               port=5672,
-#                               heartbeat=10))
-# CHANNEL = CONNECTION.channel()
-# CHANNEL.queue_declare(queue='api_amqp', durable=False)
-
 PROCESS_RUNNING = {}
 STATUS_MANAGEMENT = True
 STATUS_CHANNEL = True
-
-# def set_channel_pika(channel_pika: pika.BlockingConnection.channel):
-#     global CHANNEL
-#
-#     if CHANNEL:
-#         CHANNEL.close()
-#
-#     CHANNEL = channel_pika
 
 
 def define_connection():

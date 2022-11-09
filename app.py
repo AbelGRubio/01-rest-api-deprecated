@@ -6,6 +6,7 @@ import sys
 from api import LOGGER
 from api.routes import *
 from api.AMQP import declare_thread_ampq
+import uvicorn
 
 
 if __name__ == '__main__':
@@ -18,5 +19,7 @@ if __name__ == '__main__':
 
     declare_thread_ampq()
 
-    APP.run(host=host,
-            port=5000)
+    uvicorn.run(APP, host=host, port=5000,
+                reload=False, log_level="debug",)
+    # debug = True,
+    # workers = 1, limit_concurrency = 1, limit_max_requests = 1

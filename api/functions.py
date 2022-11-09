@@ -3,7 +3,7 @@
 
 """
 import time
-from flask import request
+from fastapi import Request
 
 from api import LOGGER, LOGGER_NAME
 import api.global_parameters as api_global
@@ -29,7 +29,8 @@ def count_unique_visits(base_url: str = '',
     return
 
 
-def record_visit() -> (str, str, str):
+def record_visit(
+        request: Request) -> (str, str, str):
     """
     Function that register who is visit the path
 
@@ -37,7 +38,7 @@ def record_visit() -> (str, str, str):
     """
 
     meth = request.method
-    user = request.remote_addr
+    user = request.client.host
     base_url = request.base_url
 
     api_global.CHANNEL.basic_publish(

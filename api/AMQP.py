@@ -1,9 +1,8 @@
 import threading
 
+import api.global_parameters as api_global
 from api import LOGGER
 from api.functions import count_unique_visits
-import pika
-import api.global_parameters as api_global
 
 
 def run_amqp():
@@ -35,8 +34,9 @@ def run_amqp():
                 try:
                     user, base_url, meth = body.decode('utf8').split('-')
 
-                    LOGGER.debug(f'VISITS: The user {user} has visited the url {base_url} '
-                                 f'under the method {meth}')
+                    LOGGER.debug(
+                        f'VISITS: The user {user} has visited the url {base_url} '
+                        f'under the method {meth}')
 
                     count_unique_visits(base_url=base_url, user=user)
 
