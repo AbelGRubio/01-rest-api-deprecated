@@ -28,6 +28,8 @@ PROCESS_RUNNING = {}
 STATUS_MANAGEMENT = True
 STATUS_CHANNEL = True
 
+PID_GENERAL_PROCESS = None
+
 
 def define_connection():
     global CONNECTION, CHANNEL

@@ -34,7 +34,7 @@ def set_logger() -> logging.Logger:
                                   when='midnight')
     sh = logging.StreamHandler(sys.stdout)
     formatter = logging.Formatter('[%(asctime)s] %(levelname)s '
-                                  # '[%(processName)s:%(threadName)s]'
+                                  '[%(processName)s:%(threadName)s]'
                                   # '<.%(funcName)s>'
                                   ' %(message)s',
                                   datefmt='%d/%b/%Y %H:%M:%S')
