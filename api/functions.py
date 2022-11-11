@@ -7,6 +7,8 @@ from fastapi import Request
 
 from api import LOGGER, LOGGER_NAME
 import api.global_parameters as api_global
+import threading
+import pika
 
 
 def count_unique_visits(base_url: str = '',
@@ -49,26 +51,6 @@ def record_visit(
     return base_url, meth, user
 
 
-def record_message(message: str) -> bool:
-    """
-    Function that register who is visit the path
-
-    :return: tuple with basic information
-    """
-
-    state = True
-    try:
-        api_global.CHANNEL.basic_publish(
-            exchange='',
-            routing_key='api_amqp',
-            body=message)
-    except Exception as e:
-        print(e)
-        state = False
-
-    return state
-
-
 def read_logger_visits() -> list:
     """
     Read the logger to show the visit history.
@@ -92,44 +74,133 @@ def read_logger_visits() -> list:
     return lines
 
 
-def process_management(conn=None) -> None:
+def process_management() -> None:
     count_time = 0
 
     api_global.define_connection()
 
     time.sleep(1)
-    # set_channel_pika(channel_pika)
 
-    record_message('Starting process management')
+    api_global.record_message('Starting process management')
 
     while api_global.STATUS_MANAGEMENT:
-        record_message('Doing stuff on process management. Time {}'.format(count_time))
+        api_global.record_message('Doing stuff on process management. Time {}'.format(count_time))
         time.sleep(5)
         count_time += 1
 
-    record_message('Finishing process management')
+    api_global.record_message('Finishing process management')
     api_global.CHANNEL.stop_consuming()
 
     return None
 
 
 def process_channel(
-        num_channel: int) -> None:
+        num_channel: int = 1) -> None:
     count_time = 0
 
     api_global.define_connection()
 
     time.sleep(1)
 
-    record_message('Starting process channel {}'.format(num_channel))
+    api_global.record_message(
+        'Starting process channel {}'.format(num_channel),
+    )
+
+    define_the_threads(num_channel,
+                       2,
+                       api_global.CHANNEL)
+
+    time.sleep(1)
 
     while api_global.STATUS_CHANNEL:
-        record_message('Doing stuff on process channel {}. '
-                       'Time {}'.format(num_channel, count_time))
+        api_global.record_message(
+            'Doing stuff on process channel {}. '
+            'Time {}'.format(num_channel, count_time)
+        )
         time.sleep(1)
         count_time += 1
 
-    record_message('Finishing process channel {}'.format(num_channel))
+    api_global.record_message('Finishing process channel {}'.format(num_channel))
 
     api_global.CHANNEL.stop_consuming()
 
+
+def define_thread(
+        num_channel: str,
+        num_thread: int,
+        channel: pika.BlockingConnection.channel = None
+) -> None:
+    count_time = 0
+
+    api_global.define_connection()
+
+    time.sleep(1)
+
+    api_global.record_message(
+        'Starting thread {} channel {}'.format(num_thread, num_channel),
+        channel)
+
+    while api_global.STATUS_CHANNEL:
+        api_global.record_message(
+            'Doing stuff on process channel {} and thread {}. '
+            'Time {}'.format(num_channel,
+                             num_thread,
+                             count_time),
+            channel
+        )
+        time.sleep(0.5)
+        count_time += 1
+
+    api_global.record_message('Finishing thread {} channel {}'.format(
+        num_thread,
+        num_channel),
+        channel
+    )
+
+
+def define_the_threads(
+        num_channel: int,
+        num_thread: int,
+        channel: pika.BlockingConnection.channel = None
+) -> None:
+
+    api_global.record_message(f'Declaring threads for channel {num_channel}')
+
+    for ni in range(1, num_thread + 1):
+        th = threading.Thread(target=define_thread,
+                              name='thread_{}_{}'.format(num_channel, num_thread),
+                              args=(num_channel, num_thread, channel)
+                              )
+        th.start()
+
+    api_global.record_message(f'Declared threads for channel {num_channel}')
+
+# def define_connection():
+#     global CONNECTION, CHANNEL
+# 
+#     CONNECTION = pika.BlockingConnection(
+#         pika.ConnectionParameters(host='localhost',
+#                                   port=5672,
+#                                   heartbeat=10))
+#     CHANNEL = CONNECTION.channel(channel_number=0)
+#     CHANNEL.queue_declare(queue='api_amqp', durable=False)
+# 
+# 
+# def api_global.record_message(message: str) -> bool:
+#     """
+#     Function that register who is visit the path
+# 
+#     :return: tuple with basic information
+#     """
+# 
+#     state = True
+#     try:
+#         api_global.CHANNEL.basic_publish(
+#             exchange='',
+#             routing_key='api_amqp',
+#             body=message)
+#     except Exception as e:
+#         print(e)
+#         state = False
+# 
+#     return state
