@@ -3,6 +3,7 @@ import threading
 import api.global_parameters as api_global
 from api import LOGGER
 from api.functions import count_unique_visits
+import functools
 
 
 def run_amqp():
@@ -12,6 +13,17 @@ def run_amqp():
     :return: Nothing
     """
     api_global.define_connection()
+
+    def ack_message(channel, delivery_tag):
+        """Note that `channel` must be the same pika channel instance via which
+        the message being ACKed was retrieved (AMQP protocol constraint).
+        """
+        if channel.is_open:
+            channel.basic_ack(delivery_tag)
+        else:
+            # Channel is already closed, so we can't ACK this message;
+            # log and/or do something that makes sense for your app in this case.
+            pass
 
     def callback(ch, method, properties,
                  body: bytes = b''):
@@ -45,7 +57,10 @@ def run_amqp():
         except Exception as e:
             LOGGER.error('Error doing things. {}'.format(e))
 
-        api_global.CHANNEL.basic_ack(method.delivery_tag)
+        cb = functools.partial(ack_message, ch, method.delivery_tag)
+        api_global.CONNECTION.add_callback_threadsafe(cb)
+
+        # api_global.CHANNEL.basic_ack(method.delivery_tag)
 
     api_global.CHANNEL.basic_consume(
         queue='api_amqp',

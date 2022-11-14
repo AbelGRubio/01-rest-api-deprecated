@@ -77,18 +77,19 @@ def read_logger_visits() -> list:
 def process_management() -> None:
     count_time = 0
 
-    api_global.define_connection()
+    api_global.define_connection(True)
 
     time.sleep(1)
 
-    api_global.record_message('Starting process management')
+    api_global.add_message_queue('Starting process management')
 
     while api_global.STATUS_MANAGEMENT:
-        api_global.record_message('Doing stuff on process management. Time {}'.format(count_time))
+        api_global.add_message_queue(
+            'Doing stuff on process management. Time {}'.format(count_time))
         time.sleep(5)
         count_time += 1
 
-    api_global.record_message('Finishing process management')
+    api_global.add_message_queue('Finishing process management')
     api_global.CHANNEL.stop_consuming()
 
     return None
@@ -98,29 +99,29 @@ def process_channel(
         num_channel: int = 1) -> None:
     count_time = 0
 
-    api_global.define_connection()
+    api_global.define_connection(True)
 
     time.sleep(1)
 
-    api_global.record_message(
+    api_global.add_message_queue(
         'Starting process channel {}'.format(num_channel),
     )
 
     define_the_threads(num_channel,
-                       2,
+                       13,
                        api_global.CHANNEL)
 
     time.sleep(1)
 
     while api_global.STATUS_CHANNEL:
-        api_global.record_message(
+        api_global.add_message_queue(
             'Doing stuff on process channel {}. '
             'Time {}'.format(num_channel, count_time)
         )
         time.sleep(1)
         count_time += 1
 
-    api_global.record_message('Finishing process channel {}'.format(num_channel))
+    api_global.add_message_queue('Finishing process channel {}'.format(num_channel))
 
     api_global.CHANNEL.stop_consuming()
 
@@ -131,30 +132,24 @@ def define_thread(
         channel: pika.BlockingConnection.channel = None
 ) -> None:
     count_time = 0
+    time.sleep(2)
 
-    api_global.define_connection()
-
-    time.sleep(1)
-
-    api_global.record_message(
-        'Starting thread {} channel {}'.format(num_thread, num_channel),
-        channel)
+    api_global.add_message_queue(
+        'Starting thread {} channel {}'.format(num_thread, num_channel))
 
     while api_global.STATUS_CHANNEL:
-        api_global.record_message(
+        api_global.add_message_queue(
             'Doing stuff on process channel {} and thread {}. '
             'Time {}'.format(num_channel,
                              num_thread,
-                             count_time),
-            channel
+                             count_time)
         )
         time.sleep(0.5)
         count_time += 1
 
-    api_global.record_message('Finishing thread {} channel {}'.format(
+    api_global.add_message_queue('Finishing thread {} channel {}'.format(
         num_thread,
         num_channel),
-        channel
     )
 
 
@@ -164,16 +159,17 @@ def define_the_threads(
         channel: pika.BlockingConnection.channel = None
 ) -> None:
 
-    api_global.record_message(f'Declaring threads for channel {num_channel}')
+    api_global.add_message_queue(f'Declaring threads for channel {num_channel}')
 
     for ni in range(1, num_thread + 1):
         th = threading.Thread(target=define_thread,
-                              name='thread_{}_{}'.format(num_channel, num_thread),
-                              args=(num_channel, num_thread, channel)
+                              name='thread_{}_{}'.format(num_channel, ni),
+                              args=(num_channel, ni, None)
                               )
         th.start()
+        # time.sleep(0.1)
 
-    api_global.record_message(f'Declared threads for channel {num_channel}')
+    api_global.add_message_queue(f'Declared threads for channel {num_channel}')
 
 # def define_connection():
 #     global CONNECTION, CHANNEL
@@ -186,7 +182,7 @@ def define_the_threads(
 #     CHANNEL.queue_declare(queue='api_amqp', durable=False)
 # 
 # 
-# def api_global.record_message(message: str) -> bool:
+# def api_global.add_message_queue(message: str) -> bool:
 #     """
 #     Function that register who is visit the path
 # 

@@ -38,7 +38,7 @@ def stop_endpoint(
                 name_process_0 = 'process-0'
                 p = PROCESS_RUNNING[name_process_0]
                 p.terminate()
-                LOGGER.debug(f'Terminated process logger')
+                LOGGER.debug(f'Terminated manager process')
                 del PROCESS_RUNNING[name_process_0]
 
     return HTMLResponse(

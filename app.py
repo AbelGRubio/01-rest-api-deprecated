@@ -18,7 +18,8 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         host = sys.argv[1]
     else:
-        host = 'localhost'
+        # host = 'localhost'
+        host = '192.168.127.68'
 
     LOGGER.info('Setting the REST API to http://{}:5000'.format(host))
 
