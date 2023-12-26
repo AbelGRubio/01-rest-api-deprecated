@@ -13,6 +13,8 @@ jobs:
     runs-on: [DESKTOP-3FBH9V8]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Run Custom Script
+        run: echo "Hola mundo en el custom runner"
