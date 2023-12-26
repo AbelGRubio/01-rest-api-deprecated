@@ -25,8 +25,8 @@ jobs:
         run: |
           pip install python-semantic-release==7.34.6
           pip install -r requirements.txt
-#          echo "Update version package..."
-#          git config user.name ${GIT_USER}
-#          git config user.email ${GIT_MAIL}
-#          semantic-release publish
+          echo "Update version package..."
+          git config user.name ${GIT_USER}
+          git config user.email ${GIT_MAIL}
+          semantic-release publish
 
