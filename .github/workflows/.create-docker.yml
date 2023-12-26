@@ -1,4 +1,4 @@
-name: Hola mundo
+name: Self hosted runner
 
 on:
   push:
@@ -13,4 +13,7 @@ jobs:
 
     steps:
       - name: Run Custom Script
-        run: echo "Hola mundo en el custom runner"
+        run: |
+          echo "Hola mundo en el custom runner"
+          echo "El valor de MI_VARIABLE es $SOMETHING_HERE"
+
