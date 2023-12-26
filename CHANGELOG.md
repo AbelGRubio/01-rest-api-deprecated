@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.3 (2023-12-26)
+
+### Fix
+
+* **abel:** Modificado setup.py ([`9845eaf`](https://https://github.com/AbelGRubio/01-rest-api/AbelGRubio/01-rest-api/-/commit/9845eafe93ee9fe92bf8c5db540994ac4ada813d))
+
 ## v0.0.2 (2023-12-26)
 
 ### Fix
