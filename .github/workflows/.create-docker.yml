@@ -13,8 +13,5 @@ jobs:
     runs-on: [DESKTOP-3FBH9V8]
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
       - name: Run Custom Script
         run: echo "Hola mundo en el custom runner"
