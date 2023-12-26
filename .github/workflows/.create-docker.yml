@@ -10,7 +10,7 @@ jobs:
 
   build:
 
-    runs-on: ubuntu-latestw
+    runs-on: [DESKTOP-3FBH9V8]
 
     steps:
     - uses: actions/checkout@v3
