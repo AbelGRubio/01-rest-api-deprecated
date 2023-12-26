@@ -12,6 +12,10 @@ UNIQUE_URL_VISITS = {}
 
 CONNECTION, CHANNEL = None, None
 
+
+
+
+
 # CONNECTION = pika.BlockingConnection(
 #     pika.ConnectionParameters(host='localhost',
 #                               port=5672,
