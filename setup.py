@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-from src.iniciativas import __version__
+from src.api import __version__
 
 
 with open('requirements.txt') as f:
@@ -11,17 +11,17 @@ with open("README.md", 'r') as f:
 
 
 setup(
-    name='cedro',
+    name='REST api',
     version=__version__,
-    author='Brainy Inteligencia Semántica',
-    author_email="info@brainy.technology",
-    description='This package is made for iniciativas spider.',
-    url='https://gitlab.brainyinteligencia.com/brainy/scrapper-iniciativas.git',
+    author='agrubio',
+    author_email="agrubio",
+    description='This package is made for an example of REST API.',
+    url='https://github.com/AbelGRubio/01-rest-api.git',
     keywords='development, setup, setuptools',
     python_requires='>=3.5',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    packages=find_packages(include=['iniciativas', 'iniciativas.*']),
+    packages=find_packages(include=['api', 'api.*']),
     install_requires=requirements,
     classifiers=[
         "Programming Language :: Python :: 3",
