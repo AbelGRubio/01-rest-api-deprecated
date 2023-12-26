@@ -10,6 +10,7 @@ jobs:
 
   build:
     runs-on: self-hosted
+    environment: deploy-env
 
     steps:
       - name: Run Custom Script
