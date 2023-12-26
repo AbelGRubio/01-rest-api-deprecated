@@ -19,6 +19,6 @@ jobs:
       - name: Run Custom Script
         run: |
           echo "Hola mundo en el custom runner"
-          echo "El valor de MI_VARIABLE es $SOMETHING_HERE"
-          echo "El valor de MI_VARIABLE_2 es $SECOND_VARS"
+          echo "El valor de MI_VARIABLE es ${{ env.SOMETHING_HERE }}"
+          echo "El valor de MI_VARIABLE_2 es ${{ env.SECOND_VARS }}"
 
