@@ -1,9 +1,8 @@
 import threading
 
-from api import LOGGER
-from api.functions import count_unique_visits
-import pika
-import api.global_parameters as api_global
+from src.api import LOGGER
+from src.api.functions import count_unique_visits
+import src.api.global_parameters as api_global
 
 
 def run_amqp():

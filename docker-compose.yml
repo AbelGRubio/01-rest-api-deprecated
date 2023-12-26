@@ -1,0 +1,7 @@
+version: $PACKAGE_VERSION
+services:
+  scrapper-iniciativas:
+    image: :$PACKAGE_VERSION
+    build:
+      dockerfile: Dockerfile
+    privileged: true

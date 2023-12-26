@@ -2,10 +2,9 @@
     This is the main module to execute the REST API using AMPQ
 
 """
+from src.api.routes import *
+from src.api.AMQP import declare_thread_ampq
 import sys
-from api import LOGGER
-from api.routes import *
-from api.AMQP import declare_thread_ampq
 
 
 if __name__ == '__main__':

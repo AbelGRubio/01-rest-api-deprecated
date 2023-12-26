@@ -5,8 +5,8 @@
 import time
 from flask import request
 
-from api import LOGGER, LOGGER_NAME
-import api.global_parameters as api_global
+from src.api import LOGGER, LOGGER_NAME
+import src.api.global_parameters as api_global
 
 
 def count_unique_visits(base_url: str = '',

@@ -1,0 +1,127 @@
+# You can override the included template(s) by including variable overrides
+# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
+# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
+# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
+# Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
+# Note that environment variables can be set in several places
+# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
+include:
+- template: Security/Secret-Detection.gitlab-ci.yml
+
+default:
+  image: python:3.11
+
+stages:
+  - test
+  - semantic-release
+  - docker-compose
+
+flake8:
+  stage: test
+  rules:
+    - if: '$GITLAB_USER_NAME == $PR_TOKEN_USER'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - when: always
+  script:
+    - pip install flake8
+    - flake8 --output-file=flake8.txt --exit-zero
+  allow_failure: false
+  artifacts:
+    paths:
+      - ./flake8.txt
+
+test:
+  stage: test
+  rules:
+    - if: '$GITLAB_USER_NAME == $PR_TOKEN_USER'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - when: always
+  script:
+    - pip install -r assets/requirements-test.txt
+    - pip install -r requirements.txt
+    - mkdir example
+    - pytest --cov --cov-report term --cov-report xml:covtest.xml
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: covtest.xml
+
+
+sonarqube-check:
+  stage: test
+  rules:
+    - if: '$GITLAB_USER_NAME == $PR_TOKEN_USER'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - when: always
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  needs:
+    - job: test
+      artifacts: true
+    - job: flake8
+      artifacts: true
+  script:
+    - sonar-scanner -Dsonar.sources=.
+  allow_failure: true
+
+
+semantic-release:
+  stage: semantic-release
+  rules:
+    - if: '$GITLAB_USER_NAME == $PR_TOKEN_USER'
+      when: never
+    - if: '$CI_COMMIT_TAG =~ /(\d+)\.(\d+)\.(\d+)/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /(\d+)\.(\d+)\.(\d+)/'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: always
+    - when: never
+  script:
+    - pip install python-semantic-release==7.34.6
+    - pip install -r requirements.txt
+    - echo "Update version package..."
+    - git config user.name ${GIT_USER}
+    - git config user.email ${GIT_MAIL}
+    - semantic-release publish
+  allow_failure: false
+
+
+
+docker-compose:
+  stage: docker-compose
+  rules:
+    - if: '$GITLAB_USER_NAME == $PR_TOKEN_USER'
+      when: never
+    - if: '$CI_COMMIT_TAG =~ /(\d+)\.(\d+)\.(\d+)/'
+      when: never
+    - if: '$CI_COMMIT_MESSAGE =~ /(\d+)\.(\d+)\.(\d+)/'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: always
+    - when: never
+  script:
+    - docker login ${CI_SERVER_HOST}:5050 -u="${GIT_USER}" --password-stdin="${GL_TOKEN}"
+    - docker-compose -f docker-compose.yml build --no-cache
+    - docker push ${CI_PROJECT_URL}:${PACKAGE_VERSION}
+  allow_failure: false
