@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.2 (2023-12-26)
+
+### Fix
+
+* **abel:** Added workflow XV ([`9dc009b`](https://https://github.com/AbelGRubio/01-rest-api/AbelGRubio/01-rest-api/-/commit/9dc009b22e1c746b48c1c9f0619757a7b94d4afc))
+
 ## v0.0.1 (2023-12-26)
 
 ### Fix
