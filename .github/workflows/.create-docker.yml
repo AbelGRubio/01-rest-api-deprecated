@@ -9,8 +9,7 @@ on:
 jobs:
 
   build:
-
-    runs-on: [DESKTOP-3FBH9V8]
+    runs-on: self-hosted
 
     steps:
       - name: Run Custom Script
