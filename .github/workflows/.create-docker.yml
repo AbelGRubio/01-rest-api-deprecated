@@ -18,7 +18,15 @@ jobs:
 
       - name: Run Custom Script
         run: |
-          echo "Hola mundo en el custom runner"
           echo "El valor de MI_VARIABLE es ${{ vars.SOMETHING_HERE }}"
           echo "El valor de MI_VARIABLE_2 es ${{ vars.SECOND_VARS }}"
+
+      - name: Semantic Release
+        run: |
+          pip install python-semantic-release==7.34.6
+#          pip install -r requirements.txt
+#          echo "Update version package..."
+#          git config user.name ${GIT_USER}
+#          git config user.email ${GIT_MAIL}
+#          semantic-release publish
 
