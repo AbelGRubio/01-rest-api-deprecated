@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.4 (2023-12-27)
+
+### Fix
+
+* **abel:** Added semantic-release.yml ([`e73384b`](https://https://github.com/AbelGRubio/01-rest-api/AbelGRubio/01-rest-api/-/commit/e73384b29f6c628c64c501daf40690aec84235ab))
+
 ## v0.0.3 (2023-12-26)
 
 ### Fix
