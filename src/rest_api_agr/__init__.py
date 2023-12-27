@@ -13,10 +13,11 @@ import os
 import sys
 from logging.handlers import TimedRotatingFileHandler
 
-LOGGER_NAME = "prueba_api"
-
 
 __version__ = '0.0.8'
+
+
+LOGGER_NAME = "prueba_api"
 
 
 def set_logger() -> logging.Logger:
