@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.6 (2023-12-27)
+
+### Fix
+
+* **abel:** Change on semantic configuration I ([`a8f2fe3`](https://github.com/AbelGRubio/01-rest-api/commit/a8f2fe33c19c6e4d27fa01ec99bed47c648d98b3))
+
 ## v0.0.5 (2023-12-27)
 
 ### Fix
