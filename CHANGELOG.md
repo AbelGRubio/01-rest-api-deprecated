@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.9 (2023-12-27)
+
+### Fix
+
+* **abel:** Change position __version__ ([`ddf1c1f`](https://github.com/AbelGRubio/01-rest-api/commit/ddf1c1fb4c6814bef284f8df9b412aa318e7849a))
+
 ## v0.0.8 (2023-12-27)
 
 ### Fix
