@@ -2,18 +2,6 @@
     This is the main module to execute the REST API using AMPQ
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 """
 from src.rest_api_agr.routes import *
 from src.rest_api_agr.AMQP import declare_thread_ampq
