@@ -1,8 +1,8 @@
 import threading
 
-from src.api import LOGGER
-from src.api.functions import count_unique_visits
-import src.api.global_parameters as api_global
+from src.rest_api_agr import LOGGER
+from src.rest_api_agr.functions import count_unique_visits
+import src.rest_api_agr.global_parameters as api_global
 
 
 def run_amqp():

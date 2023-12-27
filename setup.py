@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-from src.api import __version__
+from src.rest_api_agr import __version__
 
 
 with open('requirements.txt') as f:
@@ -11,7 +11,7 @@ with open("README.md", 'r') as f:
 
 
 setup(
-    name='REST api',
+    name='rest-rest_api_agr-agr',
     version=__version__,
     author='agrubio',
     author_email="ablg11673@gmail.com",
@@ -21,7 +21,7 @@ setup(
     python_requires='>=3.5',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    packages=find_packages(include=['api', 'api.*']),
+    packages=find_packages(include=['rest_api_agr', 'rest_api_agr.*']),
     install_requires=requirements,
     classifiers=[
         "Programming Language :: Python :: 3",
