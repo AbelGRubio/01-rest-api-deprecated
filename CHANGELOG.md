@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.8 (2023-12-27)
+
+### Fix
+
+* **abel:** Change package name ([`d35faa3`](https://github.com/AbelGRubio/01-rest-api/commit/d35faa3b2469eb8f84f423957bc9d9d12d4ba866))
+
 ## v0.0.7 (2023-12-27)
 
 ### Fix

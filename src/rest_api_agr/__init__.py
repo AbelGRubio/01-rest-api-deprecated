@@ -16,7 +16,7 @@ from logging.handlers import TimedRotatingFileHandler
 LOGGER_NAME = "prueba_api"
 
 
-__version__ = '0.0.7'
+__version__ = '0.0.8'
 
 
 def set_logger() -> logging.Logger:
