@@ -14,7 +14,7 @@ setup(
     name='REST api',
     version=__version__,
     author='agrubio',
-    author_email="agrubio",
+    author_email="ablg11673@gmail.com",
     description='This package is made for an example of REST API.',
     url='https://github.com/AbelGRubio/01-rest-api.git',
     keywords='development, setup, setuptools',
