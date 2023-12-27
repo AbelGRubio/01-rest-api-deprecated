@@ -2,9 +2,9 @@ name: Self hosted runner
 
 on:
   push:
-    branches: [ "AMQP" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "AMQP" ]
+    branches: [ "main" ]
 
 jobs:
 
