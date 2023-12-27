@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.7 (2023-12-27)
+
+### Fix
+
+* **abel:** Change configuration package ([`f6f46bf`](https://github.com/AbelGRubio/01-rest-api/commit/f6f46bf39ef8bf5395571643bae78f0adac8af93))
+* **abel:** Change package name ([`bad1892`](https://github.com/AbelGRubio/01-rest-api/commit/bad18924058319fa374672dbe24938ad84936cef))
+
 ## v0.0.6 (2023-12-27)
 
 ### Fix
