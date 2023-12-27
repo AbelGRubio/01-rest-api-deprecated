@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.11 (2023-12-27)
+
+### Fix
+
+* **abel:** Clean comments ([`e543d5b`](https://github.com/AbelGRubio/01-rest-api/commit/e543d5b676b462cb1bd4eb096f2e01a376dfbd33))
+
 ## v0.0.10 (2023-12-27)
 
 ### Fix
