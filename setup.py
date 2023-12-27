@@ -11,7 +11,7 @@ with open("README.md", 'r') as f:
 
 
 setup(
-    name='rest-rest_api_agr-agr',
+    name='rest_api_agr',
     version=__version__,
     author='agrubio',
     author_email="ablg11673@gmail.com",
