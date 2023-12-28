@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.1.0 (2023-12-28)
+
+### Feature
+
+* **abel:** Add comments ([`ceff22c`](https://github.com/AbelGRubio/01-rest-api/commit/ceff22c345a2a4b2cb0fb9e786e85563f2bb42a2))
+
 ## v0.0.11 (2023-12-27)
 
 ### Fix
