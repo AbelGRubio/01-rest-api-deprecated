@@ -7,6 +7,12 @@
     To solve this problem we are going to use an API REST using
     Flask
 
+
+
+
+
+
+
 """
 import logging
 import os
