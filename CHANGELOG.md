@@ -2,6 +2,13 @@
 
 
 
+## v0.3.0 (2023-12-28)
+
+### Feature
+
+* feat(abel): add comments II ([`d3d02bb`](https://github.com/AbelGRubio/01-rest-api/commit/d3d02bb4e55c0b85df0c5be6c8cc787030064367))
+
+
 ## v0.2.0 (2023-12-28)
 
 ### Feature
