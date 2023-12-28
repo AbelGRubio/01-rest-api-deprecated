@@ -17,7 +17,7 @@ import sys
 from logging.handlers import TimedRotatingFileHandler
 
 
-__version__ = '0.4.1'
+__version__ = '0.4.2'
 
 
 LOGGER_NAME = "prueba_api"
