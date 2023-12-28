@@ -14,8 +14,13 @@ prerelease = false
 [semantic_release.publish]
 dist_glob_patterns = ["dist/*"]
 upload_to_vcs_release = true
+build_command = "python setup.py sdist & python setup.py bdist_wheel"
 
 [tool.semantic_release]
 version_variables = [
     "src/rest_api_agr/__init__.py:__version__",
 ]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
