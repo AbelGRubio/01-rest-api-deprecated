@@ -2,6 +2,15 @@
 
 
 
+## v0.4.3 (2024-01-01)
+
+### Fix
+
+* fix(abel): add comments VII ([`5a53724`](https://github.com/AbelGRubio/01-rest-api/commit/5a53724ea0ee4a6741a4a80f4eed950ec1895a92))
+
+* fix(abel): add comments VI ([`76c4d2d`](https://github.com/AbelGRubio/01-rest-api/commit/76c4d2d9c5109e5cb1c8eb8f7126dd09ec63712d))
+
+
 ## v0.4.2 (2023-12-28)
 
 ### Fix
