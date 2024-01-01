@@ -18,7 +18,7 @@ setup(
     description='This package is made for an example of REST API.',
     url='https://github.com/AbelGRubio/01-rest-api.git',
     keywords='development, setup, setuptools',
-    python_requires='>=3.5',
+    python_requires='>=3.12',
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(include=['rest_api_agr', 'rest_api_agr.*']),
