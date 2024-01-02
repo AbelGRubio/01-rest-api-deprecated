@@ -24,6 +24,7 @@ jobs:
           git config user.name ${GIT_USER}
           git config user.email ${GIT_MAIL}
           semantic-release version
-          python setup.py sdist & python setup.py bdist_wheel
+          python setup.py sdist 
+          python setup.py bdist_wheel
           twine upload dist/*  
 
