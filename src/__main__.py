@@ -5,12 +5,17 @@
 e e e
 
 """
-from src.rest_api_agr.routes import *
-from src.rest_api_agr.AMQP import declare_thread_ampq
+from rest_api_agr.routes import (
+    main_route, stop_endpoint, start_endpoint,
+    result_endpoint, restart_endpoint)
+from rest_api_agr.AMQP import declare_thread_ampq
 import sys
+from rest_api_agr.functions import LOGGER
+from rest_api_agr.global_parameters import APP
+import gunicorn
 
 
-if __name__ == '__main__':
+def app():
     if len(sys.argv) > 1:
         host = sys.argv[1]
     else:
@@ -20,5 +25,8 @@ if __name__ == '__main__':
 
     declare_thread_ampq()
 
-    APP.run(host=host,
-            port=5000)
+    APP.run(host=host)
+
+
+if __name__ == '__main__':
+    app()

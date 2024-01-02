@@ -5,9 +5,9 @@
 
 from flask import jsonify
 
-from src.rest_api_agr.functions import record_visit, \
+from rest_api_agr.functions import record_visit, \
     process_channel, process_management, LOGGER
-from src.rest_api_agr.global_parameters import APP, PROCESS_RUNNING
+from rest_api_agr.global_parameters import APP, PROCESS_RUNNING
 from multiprocessing import Process
 
 
@@ -85,7 +85,7 @@ def stop_endpoint(channel_num: str):
                 name_process_0 = 'process-0'
                 p = PROCESS_RUNNING[name_process_0]
                 p.terminate()
-                LOGGER.debug(f'Terminated process logger')
+                LOGGER.debug('Terminated process logger')
                 del PROCESS_RUNNING[name_process_0]
 
     return jsonify(f'You have visited {base_url} under the method {meth}'

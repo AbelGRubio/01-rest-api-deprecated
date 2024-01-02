@@ -1,4 +1,4 @@
-name: Self hosted runner
+name: Semantic release
 
 on:
   push:
@@ -15,11 +15,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-
-      - name: Run Custom Script
-        run: |
-          echo "El valor de MI_VARIABLE es ${{ vars.SOMETHING_HERE }}"
-          echo "El valor de MI_VARIABLE_2 es ${{ vars.SECOND_VARS }}"
 
       - name: Semantic Release
         run: |

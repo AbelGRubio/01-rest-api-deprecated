@@ -1,7 +1,7 @@
-version: $PACKAGE_VERSION
+
 services:
-  scrapper-iniciativas:
-    image: :$PACKAGE_VERSION
+  rest-api:
+    image: agrubio/rest-api:$GIT_VERSION
     build:
       dockerfile: Dockerfile
     privileged: true

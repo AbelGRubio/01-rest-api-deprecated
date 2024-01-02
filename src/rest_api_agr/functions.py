@@ -5,8 +5,8 @@
 import time
 from flask import request
 
-from src.rest_api_agr import LOGGER, LOGGER_NAME
-import src.rest_api_agr.global_parameters as api_global
+from rest_api_agr import LOGGER, LOGGER_NAME
+import rest_api_agr.global_parameters as api_global
 
 
 def count_unique_visits(base_url: str = '',
@@ -25,8 +25,6 @@ def count_unique_visits(base_url: str = '',
             api_global.UNIQUE_URL_VISITS[base_url].append(user)
     else:
         api_global.UNIQUE_URL_VISITS[base_url] = [user]
-
-    return
 
 
 def record_visit() -> (str, str, str):
@@ -91,7 +89,7 @@ def read_logger_visits() -> list:
     return lines
 
 
-def process_management(conn=None) -> None:
+def process_management() -> None:
     count_time = 0
 
     api_global.define_connection()
