@@ -23,4 +23,5 @@ jobs:
           echo "Update version package..."
           git config user.name ${GIT_USER}
           git config user.email ${GIT_MAIL}
+          git fetch -t
           semantic-release publish
