@@ -18,7 +18,7 @@ import sys
 from logging.handlers import TimedRotatingFileHandler
 
 
-__version__ = '0.4.6'
+__version__ = '0.4.7'
 
 
 LOGGER_NAME = "amqp_api"
