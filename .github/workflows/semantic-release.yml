@@ -24,4 +24,5 @@ jobs:
           git config user.name ${GIT_USER}
           git config user.email ${GIT_MAIL}
           git fetch -t
+          echo "Traidas todas las tags"
           semantic-release publish
