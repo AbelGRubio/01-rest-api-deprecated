@@ -20,7 +20,7 @@ from logging.handlers import TimedRotatingFileHandler
 __version__ = '0.4.4'
 
 
-LOGGER_NAME = "prueba_api"
+LOGGER_NAME = "amqp_api"
 
 
 def set_logger() -> logging.Logger:
