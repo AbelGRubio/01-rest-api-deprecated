@@ -1,22 +1,22 @@
-name: Create docker
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-jobs:
-
-  build:
-    runs-on: self-hosted
-    environment: deploy-env
-
-    steps:
-      - name: Create docker
-        run: |
-          git describe --abbrev=0 --tags >> response.txt
-          set /p GIT_VERSION =<./response.txt 
-          echo "Update version package..."
-          docker-compose build --no-cache
-          docker pull agrubio/rest-api:$GIT_VERSION
+#name: Create docker
+#
+#on:
+#  push:
+#    branches: [ "main" ]
+#  pull_request:
+#    branches: [ "main" ]
+#
+#jobs:
+#
+#  build:
+#    runs-on: self-hosted
+#    environment: deploy-env
+#
+#    steps:
+#      - name: Create docker
+#        run: |
+#          git describe --abbrev=0 --tags >> response.txt
+#          set /p GIT_VERSION =<./response.txt
+#          echo "Update version package..."
+#          docker-compose build --no-cache
+#          docker pull agrubio/rest-api:$GIT_VERSION
